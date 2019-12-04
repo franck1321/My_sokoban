@@ -25,18 +25,49 @@ void pos_player(map_s *map)
     }
 }
 
-void mouvement(int key, map_s *map)
+void mouvement(int key, map_s *map, WINDOW *win)
 {
     int mouv = 0;
 
-    clear();
     pos_player(map);
-    my_print_tab(map->map);
-    key = getch();
+    my_print_tab(map->map, win);
+    key = wgetch(win);
     key == KEY_DOWN ? key_down(map, mouv) : 0;
     key == KEY_UP ? key_up(map, mouv) : 0;
     key == KEY_RIGHT ? key_right(map, mouv) : 0;
     key == KEY_LEFT ? key_left(map, mouv) : 0;
+}
+
+int check_fail_or_win(map_s *map)
+{
+    if (check_win(map) == 0) {
+        endwin();
+        write(1, "You Win !", 10);
+        free(map);
+        return (0);
+    }
+}
+
+int map_height(map_s *map)
+{
+    int y = 0;
+
+    while (map->map[y])
+        y++;
+    return (y + 2);
+}
+
+int map_width(map_s *map)
+{
+    int y = 0, len_line = 0, len_box = 0;
+
+    while (map->map[y]) {
+        len_line = my_strlen(map->map[y]);
+        if (len_line > len_box)
+            len_box = len_line;
+        y++;
+    }
+    return (len_box + 4);
 }
 
 int game(map_s *map)
@@ -44,22 +75,20 @@ int game(map_s *map)
     int i = 0, key = 0, mouv = 0;
 
     initscr();
-    keypad(stdscr, TRUE);
+    WINDOW *win = newwin(map_height(map), map_width(map), 0, 0);
+    keypad(win, TRUE);
+    wattron(win, A_BOLD);
     while (i != 32) {
-        mouvement(key, map);
+        mouvement(key, map, win);
         if (check_fail(map) == 84) {
             endwin();
             write(1, "You Loose !", 12);
             free(map);
             return (84);
         }
-        if (check_win(map) == 0) {
-            endwin();
-            write(1, "You Win !", 10);
-            free(map);
+        if (check_fail_or_win(map) == 0)
             return (0);
-        }
-        refresh();
+        wrefresh(win);
     }
 }
 
@@ -80,6 +109,6 @@ int main(int ac, char **av, char **env)
     if (check_map(map) == 84)
         return (84);
     if (game(map) == 84)
-        return (84);
+        return (1);
     return (0);
 }

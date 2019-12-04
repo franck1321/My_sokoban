@@ -7,14 +7,18 @@
 
 #include "../../include/my.h"
 
-void my_print_tab(char **tab)
+void my_print_tab(char **tab, WINDOW *win)
 {
     int y = 0;
+    int a = 1;
 
-    clear();
+    wclear(win);
+    box(win, 0, 0);
     while (tab[y]) {
-        printw("%s\n", tab[y]);
+        mvwprintw(win, a, 2, tab[y]);
+        //mvwprintw(win, 10, a, "\n");
+        a++;
         y++;
     }
-    refresh();
+    wrefresh(win);
 }
