@@ -52,7 +52,7 @@ void put_in_array(char const *str, char **av);
 char **my_str_to_word_array(char const *str);
 int word_len(const char *str, int i);
 int word_count(const char *str);
-void my_print_tab(char **tab, WINDOW *win);
+void my_print_tab(char **tab);
 int my_put_nbr_unsigned(unsigned int nb);
 int my_printf(char *str, ...);
 
@@ -79,7 +79,7 @@ void key_left(map_s *map, int mouv);
 void key_up(map_s *map, int mouv);
 void key_down(map_s *map, int mouv);
 void pos_player(map_s *map);
-void mouvement(int key, map_s *map, WINDOW *win);
+void mouvement(int key, map_s *map);
 int game(map_s *map);
 int check_win(map_s *map);
 int check_box(map_s *map, int y, int x);

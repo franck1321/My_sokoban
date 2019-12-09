@@ -25,13 +25,13 @@ void pos_player(map_s *map)
     }
 }
 
-void mouvement(int key, map_s *map, WINDOW *win)
+void mouvement(int key, map_s *map)
 {
     int mouv = 0;
 
     pos_player(map);
-    my_print_tab(map->map, win);
-    key = wgetch(win);
+    my_print_tab(map->map);
+    key = getch();
     key == KEY_DOWN ? key_down(map, mouv) : 0;
     key == KEY_UP ? key_up(map, mouv) : 0;
     key == KEY_RIGHT ? key_right(map, mouv) : 0;
@@ -75,11 +75,9 @@ int game(map_s *map)
     int i = 0, key = 0, mouv = 0;
 
     initscr();
-    WINDOW *win = newwin(map_height(map), map_width(map), 0, 0);
-    keypad(win, TRUE);
-    wattron(win, A_BOLD);
+    keypad(stdscr, TRUE);
     while (i != 32) {
-        mouvement(key, map, win);
+        mouvement(key, map);
         if (check_fail(map) == 84) {
             endwin();
             write(1, "You Loose !", 12);
@@ -88,7 +86,7 @@ int game(map_s *map)
         }
         if (check_fail_or_win(map) == 0)
             return (0);
-        wrefresh(win);
+        refresh();
     }
 }
 
