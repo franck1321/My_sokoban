@@ -1,0 +1,41 @@
+############################################
+                MY_SOKOBAN                 #
+############################################
+
+Usage:
+
+make re
+./my_sokoban [map]
+
+
+The goal of this game is to put all the boxes
+represented by X on all the emplacements.
+
+MOUVEMENTS:          ELEMENTS:
+UP - go up           X = box
+DOWN - go down       O = emplacement
+LEFT - go left       P = Player
+RIGHT - go rigth     # = wall
+
+For the map,
+- all boxes could be equal as the
+emplacement
+- only one player
+- min 12 wall
+
+
+Exemple of map
+
+############
+#  P       #
+###    ##X #
+#O#        #
+#         ##
+#   X     O#
+############
+
+Min map
+
+#####
+#PXO#
+#####
